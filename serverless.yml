@@ -1,0 +1,25 @@
+
+service: abs-screen-scraper
+
+
+provider:
+  name: aws
+  runtime: python3.7
+  iamManagedPolicies:
+    - 'arn:aws:iam::aws:policy/AmazonSNSFullAccess'
+    - 'arn:aws:iam::aws:policy/AmazonDynamoDBFullAccess'
+  region: ap-southeast-2
+
+
+functions:
+  pm-alert:
+    handler: handler.handler
+    events:
+      - schedule: rate(2 hours)
+
+plugins:
+  - serverless-python-requirements
+
+custom:
+  pythonRequirements:
+    dockerizePip: non-linux
